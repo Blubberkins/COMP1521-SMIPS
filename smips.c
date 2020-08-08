@@ -104,17 +104,18 @@ int main(int argc, char *argv[]) {
 
     for (int line = 0; line < num_lines; line++) {
 
+        reg[0] = 0; // Sets register 0 to value 0 every loop as its value
+                    // should always remain 0
+
+        // instruction_processor returns the same line value unless it
+        // processes a jump instruction, then it returns the line the jump
+        // has moved the execution to
+        line = instruction_processor(instructionCodes[line], line, reg, 
+                                        vValues, aValues, syscalls);
+
         if (line == -1) {   // Exit instruction is called
 
-            break;
-
-        } else {
-
-            reg[0] = 0; // Sets register 0 to value 0 every loop as its value
-                        // should always remain 0
-
-            line = instruction_processor(instructionCodes[line], line, reg, 
-                                         vValues, aValues, syscalls);
+            line = num_lines;   // Exit loop
 
         }
 
@@ -152,7 +153,7 @@ int main(int argc, char *argv[]) {
 
     printf("Registers After Execution\n");
 
-    if (syscalls[1] == 0) { // syscalls[1] = 0 indicates a valid syscall
+    if (syscalls[1] == 0) { // syscalls[1] = 0 indicates all syscalls were valid
 
         for (int i = 0; i < 32; i++) {
 
