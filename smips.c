@@ -110,6 +110,9 @@ int main(int argc, char *argv[]) {
 
         } else {
 
+            reg[0] = 0; // Sets register 0 to value 0 every loop as its value
+                        // should always remain 0
+
             line = instruction_processor(instructionCodes[line], line, reg, 
                                          vValues, aValues, syscalls);
 
@@ -175,6 +178,13 @@ int main(int argc, char *argv[]) {
         printf("$2  = %d\n", syscalls[2]);
 
     }
+
+    // Free all malloc'ed arrays
+
+    free(reg);
+    free(vValues);
+    free(aValues);
+    free(syscalls);
 
     return 0;
 
